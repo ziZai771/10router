@@ -124,6 +124,25 @@ export default function ExperimentalClient() {
               />
             </div>
 
+            {/* CodeArts（华为云码道）auto daily check-in (每日签到领100积分) */}
+            <div className="flex items-start sm:items-center justify-between gap-4 pt-4 border-t border-border/50">
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-sm sm:text-base">{translate("CodeArts auto daily check-in")}</p>
+                <p className="text-xs sm:text-sm text-text-muted">
+                  {translate("Automatically check in CodeArts accounts daily (retries all day until confirmed)")}
+                </p>
+              </div>
+              <Toggle
+                checked={settings.codeartsCheckin === true}
+                onChange={() =>
+                  patch(
+                    { codeartsCheckin: !(settings.codeartsCheckin === true) },
+                    "Error toggling CodeArts auto check-in:"
+                  )
+                }
+              />
+            </div>
+
             {/* CodeBuddy CN auto daily check-in (shares the UI slot with import/export) */}
             <div className="flex items-start sm:items-center justify-between gap-4 pt-4 border-t border-border/50">
               <div className="flex-1 min-w-0">

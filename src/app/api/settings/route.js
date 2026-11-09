@@ -159,6 +159,19 @@ export async function PATCH(request) {
         .catch((error) => console.warn("[CodeBuddyCheckin] start failed:", error.message));
     }
 
+    // Experimental CodeArts（华为云码道）auto daily check-in
+    if (Object.prototype.hasOwnProperty.call(body, "codeartsCheckin")) {
+      if (settings.codeartsCheckin === true) {
+        import("@/sse/services/codeartsCheckin.js")
+          .then(({ startCodeartsCheckin }) => startCodeartsCheckin())
+          .catch((error) => console.warn("[CodeartsCheckin] start failed:", error.message));
+      } else {
+        import("@/sse/services/codeartsCheckin.js")
+          .then(({ stopCodeartsCheckin }) => stopCodeartsCheckin())
+          .catch((error) => console.warn("[CodeartsCheckin] stop failed:", error.message));
+      }
+    }
+
     // Auto daily credit claim for Qoder & Qoder CN
     if (Object.prototype.hasOwnProperty.call(body, "qoderCheckin")) {
       if (settings.qoderCheckin === true) {

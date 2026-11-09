@@ -98,6 +98,10 @@ const DEFAULT_SETTINGS = {
   codeBuddyDailyDone: {},
   // Daily-done memo for compensation pass: { [connectionId]: "YYYY-MM-DD" }
   codeBuddyCompensationDone: {},
+  // Experimental: auto daily check-in for CodeArts（华为云码道）accounts (每日签到领100积分).
+  codeartsCheckin: false,
+  // Daily-done memo for the CodeArts check-in pass: { [connectionId]: "YYYY-MM-DD" }
+  codeartsDailyDone: {},
   // Auto daily credit claim for Qoder & Qoder CN accounts.
   qoderCheckin: false,
   // Daily-done memo for Qoder: { [connectionId]: "YYYY-MM-DD" }

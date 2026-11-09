@@ -21,6 +21,7 @@ import kilocode from "./kilocode.js";
 import cline from "./cline.js";
 import clinepass from "./clinepass.js";
 import gitlab from "./gitlab.js";
+import codearts from "./codearts.js";
 import codebuddyCn from "./codebuddy-cn.js";
 import codebuddyIntl from "./codebuddy-intl.js";
 import kimchi from "./kimchi.js";
@@ -51,6 +52,7 @@ const PROVIDERS = {
   cline,
   clinepass,
   gitlab,
+  codearts,
   "codebuddy-cn": codebuddyCn,
   "codebuddy-intl": codebuddyIntl,
   kimchi,

@@ -583,12 +583,72 @@ async function testQoderConnection(connection, effectiveProxy = null, options = 
   }
 }
 
+/**
+ * CodeArts（华为云码道）连接测试。
+ *
+ * 上游没有 userinfo 端点；snap 聊天既要签名又会消耗额度，所以用
+ * GET /v1/ops/delivery（纯签名、不消耗积分）验证 AK/SK/STS 是否仍然可用。
+ * STS 过期或被吊销时先走一次统一刷新（DPoP，与后台刷新同一实现）再重试。
+ */
+async function testCodeartsConnection(connection, effectiveProxy, options = {}) {
+  const { credsFromConnection, fetchCreditCampaigns } = await import("open-sse/shared/codearts.js");
+
+  // credsFromConnection 内部优先取 accessToken（当下的 security_token）。
+  const buildCreds = (c) => credsFromConnection(c);
+
+  let conn = connection;
+  let refreshed = false;
+  let newTokens = null;
+
+  const probe = async (c) => {
+    const creds = buildCreds(c);
+    if (!creds) return { ok: false, error: "缺少 STS 凭证（ak/sk/security_token），请重新授权" };
+    try {
+      await fetchCreditCampaigns(creds, effectiveProxy);
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, error: err?.message || String(err) };
+    }
+  };
+
+  const refreshOnce = async () => {
+    if (refreshed || !conn.refreshToken) return false;
+    const tokens = await refreshProviderCredentials("codearts", conn, console);
+    if (!tokens?.accessToken) return false;
+    conn = {
+      ...conn,
+      accessToken: tokens.accessToken,
+      providerSpecificData: { ...(conn.providerSpecificData || {}), ...(tokens.providerSpecificData || {}) },
+    };
+    refreshed = true;
+    newTokens = tokens;
+    return true;
+  };
+
+  const first = await probe(conn);
+  if (first.ok) return { valid: true, error: null, refreshed, newTokens };
+
+  const retryable = isTokenExpired(conn) || /401|403|APIG\.03|expired|token/i.test(first.error || "");
+  if (retryable && (await refreshOnce())) {
+    const second = await probe(conn);
+    if (second.ok) return { valid: true, error: null, refreshed, newTokens };
+    return { valid: false, error: `CodeArts 检查失败: ${second.error}`, refreshed, newTokens };
+  }
+
+  return { valid: false, error: `CodeArts 检查失败: ${first.error}`, refreshed, newTokens };
+}
+
 async function testOAuthConnection(connection, effectiveProxy = null, options = {}) {
   // Qoder's test is model-aware and needs the live catalog — handled here, not
   // via OAUTH_TEST_CONFIG (which qoder-cn was never in, so it answered "Provider
   // test not supported" for an otherwise healthy account).
   if (connection.provider === "qoder" || connection.provider === "qoder-cn") {
     return testQoderConnection(connection, effectiveProxy, options);
+  }
+  // CodeArts signs every upstream call (SDK-HMAC-SHA256) — no plain userinfo
+  // endpoint exists, so the generic OAUTH_TEST_CONFIG probe cannot serve it.
+  if (connection.provider === "codearts") {
+    return testCodeartsConnection(connection, effectiveProxy, options);
   }
   const config = OAUTH_TEST_CONFIG[connection.provider];
   if (!config) return { valid: false, error: "Provider test not supported", refreshed: false };

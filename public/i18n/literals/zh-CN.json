@@ -1644,6 +1644,8 @@
   "Enter your current password to export CodeBuddy CN accounts.": "输入当前密码以导出 CodeBuddy CN 账号。",
   "Enter your current password to import CodeBuddy CN accounts.": "输入当前密码以导入 CodeBuddy CN 账号。",
   "CodeBuddy CN auto daily check-in": "CodeBuddy CN 每日自动签到",
+  "CodeArts auto daily check-in": "CodeArts 每日自动签到",
+  "Automatically check in CodeArts accounts daily (retries all day until confirmed)": "每天自动为 CodeArts 账号签到领积分（全天重试，当日确认完成即停）",
   "Automatically check in accounts daily (retries all day until confirmed)": "每天自动为账号签到（全天重试，当日确认完成即停）",
   "CodeBuddy intl daily active session": "CodeBuddy 国际版每日活跃会话",
   "Send one free-tier chat request per intl account daily so the activity credits are granted": "每天为每个国际版账号发送一次免费档对话请求，以获得每日活跃赠送积分",

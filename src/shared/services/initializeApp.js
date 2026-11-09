@@ -157,6 +157,13 @@ async function runHeavyStartup() {
       .catch((e) => console.log("[QoderCheckin] scheduler start failed:", e.message));
   }
 
+  // Experimental CodeArts（华为云码道）auto daily check-in (每日签到领100积分).
+  if (settings.codeartsCheckin === true) {
+    import("@/sse/services/codeartsCheckin.js")
+      .then(({ startCodeartsCheckin }) => startCodeartsCheckin())
+      .catch((e) => console.log("[CodeartsCheckin] scheduler start failed:", e.message));
+  }
+
   // Auto daily check-in for MiniMax Code subscriptions (issue #75).
   // minimax-free is CreditDaddy's closed loop — never swept from here.
   if (settings.minimaxCheckin === true) {

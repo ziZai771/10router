@@ -112,6 +112,7 @@ export const CLINEPASS_CONFIG = { ...PROVIDER_OAUTH["clinepass"] };
 export const GITLAB_CONFIG = { ...PROVIDER_OAUTH["gitlab"] };
 
 // CodeBuddy (Tencent) OAuth Configuration (Browser OAuth Polling Flow)
+export const CODEARTS_CONFIG = { ...PROVIDER_OAUTH["codearts"] };
 export const CODEBUDDY_CONFIG = { ...PROVIDER_OAUTH["codebuddy-cn"] };
 
 // CodeBuddy International — same shape as CN, .ai domain (mirror of codebuddy-cn).

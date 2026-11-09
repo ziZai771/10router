@@ -840,3 +840,26 @@ export async function refreshClineToken(providerId, refreshToken, log) {
     }
   }, log);
 }
+
+// 华为云码道 CodeArts：STS 刷新必须复用连接内持久化的 DPoP 私钥（refresh_token
+// 与 DPoP 公钥指纹绑定），成功返回携带新 ak/securityToken 的 providerSpecificData。
+export async function refreshCodeartsToken(credentials, log) {
+  const refreshToken = credentials?.refreshToken;
+  if (!refreshToken) return null;
+  return dedupRefresh("codearts", refreshToken, async () => {
+    try {
+      const { refreshCodeartsSts } = await import("../../shared/codearts.js");
+      const result = await refreshCodeartsSts({
+        refreshToken,
+        providerSpecificData: credentials?.providerSpecificData || {},
+        proxyOptions: credentials?.proxyOptions || null,
+      });
+      log?.info?.("TOKEN_REFRESH", "Successfully refreshed codearts token", { expiresIn: result.expiresIn });
+      return result;
+    } catch (e) {
+      log?.warn?.("TOKEN_REFRESH", `codearts refresh failed: ${e?.message || e}`);
+      if (e?.invalidGrant) return { error: "invalid_grant" };
+      return null;
+    }
+  }, log);
+}

@@ -494,6 +494,8 @@
   "Enter your current password to export CodeBuddy CN accounts.": "輸入目前密碼以匯出 CodeBuddy CN 帳號。",
   "Enter your current password to import CodeBuddy CN accounts.": "輸入目前密碼以匯入 CodeBuddy CN 帳號。",
   "CodeBuddy CN auto daily check-in": "CodeBuddy CN 每日自動簽到",
+  "CodeArts auto daily check-in": "CodeArts 每日自動簽到",
+  "Automatically check in CodeArts accounts daily (retries all day until confirmed)": "每天自動為 CodeArts 帳號簽到領積分（全天重試，當日確認完成即停）",
   "Automatically check in accounts daily (retries all day until confirmed)": "每天自動為帳號簽到（全天重試，當日確認完成即停）",
   "CodeBuddy intl daily active session": "CodeBuddy 國際版每日活躍會話",
   "Send one free-tier chat request per intl account daily so the activity credits are granted": "每天為每個國際版帳號發送一次免費檔對話請求，以獲得每日活躍贈送積分",

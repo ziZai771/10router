@@ -137,3 +137,6 @@ desktop/dist2/
 /desktop/dist-flavor/
 /.ui-audit/
 .tmp-fpkbuild/
+
+# local build artifacts
+build*.log

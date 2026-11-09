@@ -448,7 +448,7 @@ export default function ProviderDetailPage() {
   // Manual claim / check-in button (Qoder credits, MiniMax Code daily sign-in).
   // Must appear in every action row — single-auth providers (minimax-code is
   // OAuth-only) take the non-dual branch, which once lacked it.
-  const hasClaimCheckin = ["qoder", "qoder-cn", "minimax-code", "minimax-code-global"].includes(providerId);
+  const hasClaimCheckin = ["qoder", "qoder-cn", "minimax-code", "minimax-code-global", "codearts"].includes(providerId);
   /**
    * The Export/Import button pair, hoisted out of the dual-auth-only branch.
    *
